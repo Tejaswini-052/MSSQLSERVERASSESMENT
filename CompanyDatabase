@@ -1,0 +1,71 @@
+create database Company;
+use Company;
+create table EMPLOYEE (
+    ENO int primary key,
+    ENAME varchar(40),
+    JOB varchar(40),
+    MGR int,
+    HIREDATE date,
+    SAL int,
+    COMM int,
+    DEPT int
+);
+
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7369, 'Sunita Sharma', 'CLERK', 7902, '1980-12-17', 2800, NULL, 20);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7499, 'Ashok Singhal', 'SALESMAN', 7698, '1981-02-20', 3600, 300, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7521, 'Rohit Rana', 'SALESMAN', 7698, '1981-02-22', 5250, 500, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7566, 'Jyoti Lamba', 'MANAGER', 7839, '1981-04-02', 4975, NULL, 20);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7654, 'Martin S', 'SALESMAN', 7698, '1981-09-28', 6250, 1400, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7698, 'Binod Goel', 'MANAGER', 7839, '1981-05-01', 5850, NULL, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7782, 'Chetan Gupta', 'MANAGER', 7839, '1981-06-09', 2450, null, 10);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7788, 'Sudhir Rawat', 'ANALYST', 7566, '1987-04-19', 5000, null, 20);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7839, 'Kavita Sharma', 'PRESIDENT', NULL, '1981-11-17', 5000, null, 10);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7644, 'Tushar Tiwari', 'SALESMAN', 7698, '1901-09-08', 4500, 0, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7876, 'Anand Rathi', 'CLERK', 7788, '1987-05-23', 6100, null, 20);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values (7900, 'Jaydeep Rana', 'CLERK', 7698, '1981-12-03', 4950, null, 30);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7902, 'Sumit Vats', 'ANALYST', 7566, '1981-12-03', 3500, 3600, 20);
+insert into EMPLOYEE (ENO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPT) values  (7934, 'Manoj Kaushik', 'CLERK', 7782, '1982-01-23', 5300, NULL, 10);
+
+select * from EMPLOYEE;
+select ENO,ENAME from EMPLOYEE;
+select ENAME,HIREDATE,SAL from EMPLOYEE;
+
+select ENAME, SAL+300 from EMPLOYEE;
+
+select ENAME, (12*SAL+100) as AnnualSalary from EMPLOYEE ;
+
+
+select ENAME, SAL from EMPLOYEE where COMM IS NULL;
+
+select distinct DEPT from EMPLOYEE;
+
+select distinct JOB from EMPLOYEE;
+
+select SAL from EMPLOYEE where SAL<COMM;
+
+select SAL from EMPLOYEE where SAL between 3000 and 4000;
+
+select MGR from EMPLOYEE where MGR IN (7902, 7566, 7788);
+
+select ENAME from EMPLOYEE where ENAME LIKE 'S%';
+
+select * from EMPLOYEE where SAL >4100;
+
+select * from EMPLOYEE order by HIREDATE;
+
+select * from EMPLOYEE  order by dept asc , sal desc;
+
+select ENAME, JOB from employee WHERE HIREDATE BETWEEN '1981-02-20' AND '1981-05-01';
+select ENAME from employee where HIREDATE between '1981-01-01' and '1981-12-31';
+
+select ENAME, DEPT from employee WHERE DEPT in (20,30) ORDER BY ENAME;
+
+select ENAME, SAL from employee where SAL > 1200 and DEPT in (10,40);
+
+select * from employee where MGR is null;
+
+select ENAME ,SAL from EMPLOYEE where COMM is not null;
+
+select ENAME  from EMPLOYEE where Ename like '_a%';
+
+select ENAME ,JOB from EMPLOYEE where DEPT=20 and MGR=7788;
