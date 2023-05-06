@@ -1,0 +1,35 @@
+create table books(
+ book_id varchar(20) primary key,
+ book_name varchar(30),
+ author_name varchar(30),
+ publishers varchar(30),
+ price int,
+ type varchar(30),
+ qty int);
+
+
+ create table issued (
+  book_id varchar(20) primary key,
+  quantity_issued int,
+foreign key (book_id) references books(book_id)
+);
+
+
+insert into books values ('C0001','Fast Cook','Lata Kapoor','EPB',355,'Cookery',5);
+insert into books values ('F0001','The Tears','William Hopkins','First publ',650,'Fiction',20);
+insert into books values ('T0001','My First C++','Brain and Brook','EPB',350,'Text',10)
+insert into books values ('T0002','C++ Brain Works','AW Rossaine','TDH',350,'Text',15);
+insert into books values ('F0002','Thunderbolts','Anna Roberts','First Publ',750,'fiction',50);
+
+
+insert into issued values('T0001',4);
+insert into issued values('C0001',5);
+insert into issued values('F0001',2);
+
+select b.book_name, b.author_name, b.price, i.quantity_issued from books b, issued i where b.publishers = 'First Publ' and b.book_id = i.book_id;
+
+select b.book_id from books b inner join issued i on b.book_id = i.book_id where b.type = 'Text';
+
+select book_name, price from books order by price ASC;
+
+update books set price = price + 50 where publishers = 'EPB';
