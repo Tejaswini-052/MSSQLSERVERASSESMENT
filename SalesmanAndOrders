@@ -1,0 +1,65 @@
+create database practise;
+ use practise;
+ create table salesman(
+    salesman_id int primary key,
+	name varchar(20),
+	city varchar(20),
+	commission float);
+
+	insert into salesman (salesman_id,name,city,commission) values (5001,'Rose','NewYork',0.15);
+	insert into salesman (salesman_id,name,city,commission) values (5002,'Siya','Paris',0.13);
+	insert into salesman (salesman_id,name,city,commission) values (5005,'Alex','London',0.11);
+	insert into salesman (salesman_id,name,city,commission) values (5006,'Sumit','Paris',0.14);
+	insert into salesman (salesman_id,name,city,commission) values (5003,'David','San Jose',0.12);
+	insert into salesman (salesman_id,name,city,commission) values (5007,'Rakesh','Rome',0.13);
+
+	select * from salesman;
+
+  create table orders(
+  order_no int primary key,
+  purchase_amt float,
+  order_date date,
+  customer_id int,
+  salesman_id int, foreign key (salesman_id)  references salesman(salesman_id));
+
+
+
+insert into Orders values(70001,150.5,'2012-10-05',3005,5002)
+insert into Orders values(70009,270.65,'2012-09-10',3001,5005)
+insert into Orders values(70002,65.26,'2012-10-05',3002,5001)
+insert into Orders values(70004,110.5,'2012-08-17',3009,5003)
+insert into Orders values(70007,948.5,'2012-09-10',3005,5002)
+insert into Orders values(70005,2400.6,'2012-07-27',3007,5001)
+insert into Orders values(70008,5760,'2012-09-10',3002,5001)
+insert into Orders values(70010,1983.43,'2012-10-10',3004,5006)
+insert into Orders values(70003,2480.4,'2012-10-10',3009,5003)
+insert into Orders values(70012,250.45,'2012-06-27',3008,5002)
+insert into Orders values(70011,75.29,'2012-08-17',3003,5007)
+insert into Orders values(70013,3045.6,'2012-04-25',3002,5001)
+
+select O.order_no, O.purchase_amt, O.order_date, O.customer_id, O.salesman_id
+from orders O JOIN salesman S ON O.salesman_id = S.salesman_id where S.name = 'David';
+
+select O.order_no, O.purchase_amt, O.order_date, O.customer_id, O.salesman_id
+from orders O JOIN salesman S ON O.salesman_id = S.salesman_id where S.city = 'London';
+
+select O.ORDER_NO, O. purchase_amt, O.ORDER_DATE, O.CUSTOMER_ID, O.SALESMAN_ID
+FROM orders O , salesman s where O.salesman_id=S.salesman_id and O.customer_id=3004;
+
+select order_no, purchase_amt, order_date, customer_id, salesman_id from orders where purchase_amt > (
+  select AVG(purchase_amt)
+  from orders where order_date = '2012-10-10');
+
+select O.order_no, O.purchase_amt, O.order_date, O.customer_id, O.salesman_id from orders O,salesman s where O.salesman_id=S.salesman_id and
+S.city='Paris';
+
+select s.commission
+from salesman s
+JOIN orders o on  s.salesman_id = o.salesman_id WHERE s.city = 'New York';
+
+select order_no, purchase_amt, order_date, customer_id, salesman_id from orders where purchase_amt < (
+  select AVG(purchase_amt)
+  from orders where order_date = '2012-09-10');
+
+
+select name from salesman;
