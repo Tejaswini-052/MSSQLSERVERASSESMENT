@@ -1,0 +1,56 @@
+create database Medical;
+use Medical;
+
+create table Hospital(
+  PNo int primary key,
+  Name varchar(20),
+  Age int,
+  Department varchar(25),
+  Dateofadm DATE,
+  Charges numeric(7,2),
+  Sex CHAR(1)
+);
+
+
+insert into Hospital(PNo, Name, Age, Department, Dateofadm, Charges, Sex)
+VALUES
+  (1, 'Arprit', 62, 'Surgery', '1998-01-12', 300, 'M'),
+  (2, 'Zarina', 22, 'ENT', '1997-12-12', 250, 'F'),
+  (3, 'Kareem', 32, 'Orthopedic', '1998-02-19', 200, 'M'),
+  (4, 'Arun', 12, 'Surgery', '1998-01-11', 300, 'M'),
+  (5, 'Zubin', 30, 'ENT', '1998-01-12', 250, 'M'),
+  (6, 'Ketaki', 16, 'ENT', '1998-02-24', 250, 'F'),
+  (7, 'Ankita', 29, 'Cardiology', '1998-02-20', 800, 'F'),
+  (8, 'Zareen', 45, 'Gynaecologist', '1998-02-22',300, 'F'),
+  (9, 'Kush', 19, 'Cardiology', '1998-01-13',800, 'M'),
+  (10, 'Shilpa', 23, 'Nuclear Medicine', '1998-01-20', 400,'F');
+
+create nonclustered index NC_Dateofadm ON Hospital (Dateofadm);
+
+create unique index UX_Name on Hospital (Name);
+
+select Name + ' of Age ' + CONVERT(varchar, Age) + ' got admitted on ' + CONVERT(varchar, Dateofadm) as DataDisplay from Hospital;
+
+alter table Hospital add Address char(20);
+
+alter table Hospital alter column Address char(25);
+
+alter table Hospital alter column Address varchar(25);
+
+exec sp_rename 'Hospital.Address', 'Home_Address', 'COLUMN';
+
+alter table Hospital drop column Home_Address;
+
+exec sp_rename 'Hospital', 'Hospital_data';
+
+update Hospital set Age = 30 where PNo = 7;
+
+alter table Hospital drop constraint PK__Hospital__C5773DEF3013C310;
+
+create clustered index CI_PNo on Hospital(PNo);
+
+select Department, COUNT(*) as PatientTotal from Hospital group by Department;
+
+delete from Hospital;
+
+drop table Hospital;
