@@ -1,0 +1,51 @@
+use College;
+
+create table StudentNew (
+  StudentNo int,
+  Class int,
+  Name varchar(50),
+  Game varchar(50),
+  Grade1 varchar(2),
+  SUPW varchar(50),
+  Grade2 varchar(2)
+);
+
+insert into StudentNew (StudentNo, Class, Name, Game, Grade1, SUPW, Grade2)
+values
+  (10, 7, 'Sameer', 'Cricket', 'B', 'Photography', 'A'),
+  (11, 8, 'Sujit', 'Tennis', 'A', 'Gardening', 'C'),
+  (12, 7, 'Kamal', 'Swimming', 'B', 'Photography','B'),
+  (13, 7, 'Veena', 'Tennis', 'C', 'Cooking', 'A'),
+  (14, 9, 'Archana', 'Basketball', 'A', 'Literature','A'),
+  (15, 10, 'Arpit', 'Cricket', 'A', 'Gardening','C');
+
+
+select Name from StudentNew where Grade1 = 'C' OR Grade2 = 'C';
+
+select count(*) as CountGradeA from StudentNew where Game = 'Cricket' and Grade1 = 'A';
+
+select distinct Game FROM StudentNew;
+
+select SUPW from StudentNew where Name like 'A%';
+
+select* from StudentNew order by SUPW asc;
+
+alter table StudentNew add Marks numeric;
+
+alter table StudentNew alter column Marks NUMERIC(4, 2);
+
+alter table StudentNew alter column Marks real;
+
+Exec sp_rename 'Marks','TotalMarks';
+
+alter table StudentNew drop column TotalMarks;
+
+update StudentNew set SUPW = 'Cooking' where StudentNo = 10;
+
+select Grade1, COUNT(*) as Total from StudentNew group by Grade1;
+
+select * from StudentNew where Grade1='A' or Grade1='C';
+
+select * from StudentNew order by Name asc;
+
+drop table StudentNew;
