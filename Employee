@@ -1,0 +1,104 @@
+use company;
+
+CREATE TABLE UpdatedEmployee (
+    empno INT PRIMARY KEY,
+    ename VARCHAR(50),
+    job VARCHAR(50),
+    manager INT,
+    hiredate DATE,
+    salary FLOAT,
+    commission FLOAT,
+    deptno INT
+);
+
+INSERT INTO UpdatedEmployee(empno, ename, job, manager, hiredate, salary, commission, deptno)
+VALUES (8369, 'Smith', 'CLERK', 8902, '1900-12-18', 800, NULL, 20),
+    (8499, 'Anya', 'SALESMAN', 8696, '1991-02-20', 1600, 300, 30),
+    (8521, 'Seth', 'SALESMAN', 8698, '1991-02-22', 1258, 500, 30),
+    (8566, 'Mahadevan', 'MANAGER', 8839, '1991-04-02', 2985, NULL, 20),
+    (8654, 'Momin', 'SALESMAN', 8698, '1991-09-28', 1250, 1400, 30),
+    (8698, 'Bina', 'MANAGER', 8839, '1991-05-01', 2850, NULL, 30),
+    (8882, 'Shivash', 'MANAGER', 8839, '1991-06-09', 2450, NULL, 10),
+    (8888, 'Scott', 'ANALYST', 8566, '1992-12-09', 3000, NULL, 20),
+    (8839, 'Amir', 'PRESIDENT', NULL, '1991-11-18', 5000, NULL, 10),
+    (8844, 'Kuldeep', 'SALESMAN', 8698, '1991-09-08', 1500, 0, 30),
+    (8886, 'Anoop', 'CLERK', 8888, '1993-01-12', 1100, NULL, 20),
+    (8100, 'Yash', 'ANALYST', NULL, '2003-05-03', 6000, NULL, 20),
+    (8900, 'Jastin', 'CLERK', 8698, '1991-12-03', 950, NULL, 30),
+    (8902, 'Fakir', 'ANALYST', 8566, '1991-12-03', 3500, NULL, 20);
+
+--1.
+create function DisplayEmployee()
+returns table
+as
+return (SELECT * FROM UpdatedEmployee);
+
+select * from DisplayEmployee();
+
+--2.
+create function Details(@empno int, @ename varchar(50), @job varchar(50), @manager int, @hiredate date, @salary int, @commission int, @deptno int)
+returns int
+as
+begin
+   declare @table table(empno int,ename varchar(20),job varchar(20),manager varchar(20),hiredate date,salary int,commission int,deptno int) 
+	insert into @table values(@empno, @ename, @job , @manager, @hiredate , @salary , @commission, @deptno)
+	return Scope_Identity();
+end
+
+insert into UpdatedEmployee(empno, ename, job, manager, hiredate, salary, commission, deptno)
+values (Details(8088, 'Ramesh', 'CLERK', 8789, '2022-08-09', 4500, NULL, 10));
+
+--3.
+create function countFunction()
+returns int
+as
+begin
+   declare @countnumber int
+    select
+	@countnumber = COUNT(*)
+    from UpdatedEmployee
+    return @countnumber
+end
+
+select dbo.countFunction() as count;
+
+--4.
+create function search()
+returns table 
+as
+return (select * from UpdatedEmployee where deptno=30);
+
+select * from search();
+
+--5.
+create function ToSort()
+returns table
+as
+return (select * from UpdatedEmployee order by empno asc);
+
+select * from ToSort();
+
+--6.
+create function UpdateSalary()
+returns varchar(50)
+as
+begin
+    update UpdatedEmployee
+    set salary = 500
+    where empno = 8902;
+	return 'done'
+end
+
+SELECT dbo.UpdateSalary()
+
+--7.
+create function GetLastInsertedEmployeeId()
+returns int
+AS
+BEGIN
+    DECLARE @EmployeeId INT
+    SELECT @EmployeeId = MAX(empno) FROM UpdatedEmployee
+    RETURN @EmployeeId
+END
+
+DELETE FROM UpdatedEmployee WHERE empno = GetLastInsertedEmployeeId();
