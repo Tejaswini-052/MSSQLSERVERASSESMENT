@@ -1,0 +1,23 @@
+--DML UPDATE
+create trigger Updatetrigger
+on student
+for update
+as
+begin
+    IF UPDATE(usn) 
+    BEGIN
+        PRINT 'Usn updated'
+    END
+END
+update student set usn='123' where name='Tejaswini';
+
+
+--Procedure delete
+create procedure Todelete
+    @marks INT,
+    @name VARCHAR(50)
+as
+begin
+    delete from student
+   where Marks = @marks AND Name = @name
+end
