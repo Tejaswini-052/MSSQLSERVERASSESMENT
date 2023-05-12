@@ -1,0 +1,89 @@
+create database movie;
+use movie;
+
+create table ticketdetails (
+  Tcode varchar(20),
+  Name varchar(20),
+  Tickets int,
+  Acode varchar(20)
+);
+
+insert into ticketdetails (Tcode, Name, Tickets,Acode) values ('S001', 'Meena', 7,'A01'),
+  ('S002', 'Vani', 5,'A02'),
+  ('S003', 'Meena', 9,'A01'),
+  ('S004', 'Karish', 2,'A03'),
+  ('S005', 'Suraj',1,'A02');
+
+create table AgentDetails (
+  Acode varchar(10),
+  AName VARCHAR(20)
+);
+
+insert into AgentDetails (Acode, AName) values ('A01', 'Mr. Robin'),
+  ('A02', 'Mr. Ayush'),
+  ('A03', 'Mr. Trilok'),
+  ('A04', 'Mr. John');
+
+
+select tick.Tcode, tick.Name, agent.AName from ticketdetails tick join AgentDetails agent on tick.Acode = agent.Acode where tick.Tickets > 5;
+
+select sum(Tickets) AS totalticket from ticketdetails where Acode = 'A02';
+
+select agent.Acode, agent.AName, tick.Tcode from agentdetails agent join ticketdetails tick on agent.Acode = tick.Acode where agent.AName like '%k';
+
+
+
+alter trigger insertAgent
+on ticketdetails
+for update
+as
+begin
+    insert into AgentDetails (Acode, AName)
+    Select Acode, Name
+    from updated
+end;
+
+update ticketdetails set Name='Vani' where Acode='A03';
+select * from AgentDetails;
+
+
+
+create trigger InsertAgentOnDelete
+on ticketdetails
+for delete
+as
+begin
+    insert into AgentDetails(Acode, AName)
+    select Acode, Name 
+	from deleted
+end;
+
+delete from ticketdetails where Tcode='S002';
+
+
+
+create trigger preventdelete
+ON TICKETDETAILS, AGENTDETAILS
+for delete
+as
+begin
+    if exists (SELECT * FROM deleted)
+    BEGIN
+        print 'No deletion'
+        ROLLBACK TRANSACTION;
+    END;
+END;
+
+
+begin TRANSACTION;
+update agentdetails
+set AName = 'EampleName'
+WHERE Acode = 'A04';
+
+IF ROW_COUNT() > 0 THEN
+    SELECT 'Changes committed.';
+    COMMIT;
+ELSE
+    SELECT 'Rolling back changes.';
+    ROLLBACK;
+COMMIT
