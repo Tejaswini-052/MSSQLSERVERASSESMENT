@@ -1,0 +1,16 @@
+--View with check option
+
+create table  student (usn int);
+create view display as select * from student where usn>2
+with check option;
+
+--after trigger
+
+create trigger afterdemo
+on student
+after insert
+as
+begin
+insert into student select * from inserted
+end
+insert into student values(5);
